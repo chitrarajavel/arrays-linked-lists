@@ -149,8 +149,6 @@ class LinkedList {
         }
 
         let newNode = new Node(val);
-        let currentIndex = 0;
-        let currentNode = this.head;
 
         if (idx === 0) {
             if (this.head === null) {
@@ -160,7 +158,7 @@ class LinkedList {
                 newNode.next = this.head;
                 this.head = newNode;
             }
-        } else if (idx === this.length + 1) {
+        } else if (idx === this.length) {
             if (this.head === null) {
                 this.head = newNode;
                 this.tail = newNode;
@@ -189,6 +187,40 @@ class LinkedList {
     removeAt(idx) {
         if (this.length === 0) {
             throw new Error('Empty Linked List');
+        }
+
+        if (idx >= this.length || idx < 0) return undefined;
+
+        let currentNode = this.head;
+        let oneBeforeTail = this.head;
+        let previousNode = this.head;
+
+        if (idx === 0) {
+            this.head = null;
+            this.head = currentNode.next;
+        } else if (idx === this.length) {
+            while (currentNode.next) {
+                oneBeforeTail = currentNode;
+                currentNode = currentNode.next;
+            }
+            oneBeforeTail.next = null;
+            this.tail = oneBeforeTail;
+        } else {
+            for (let i = 0; i <= idx; i++) {
+                if (i === idx - 1) {
+                    previousNode = currentNode.next;
+                } else {
+                    currentNode = currentNode.next;
+                }
+            }
+            previousNode.next = currentNode.next;
+        }
+        this.length--;
+
+        // Check if the length of the linked list is empty after the values are removed and set the head and the tail
+        if (this.length === 0) {
+            this.head = null;
+            this.tail = null;
         }
     }
 
